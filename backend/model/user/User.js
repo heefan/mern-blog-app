@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const bcrypt = require('bcryptjs')
+
 
 const userSchema = new mongoose.Schema(
   {
@@ -98,6 +100,17 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+// encrypt password
+// https://openbase.com/js/bcryptjs/documentation
+userSchema.pre('save', async function(next) {
+    console.log(this);
+
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt)
+    next();
+})
+
 
 
 // compile schema into  model
