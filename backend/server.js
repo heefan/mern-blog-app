@@ -1,7 +1,7 @@
 const express = require('express')
 const dbConnect = require('./config/db/dbConnect');
 const userRoutes = require('./router/users/usersRoute');
-const errorHandler = require('./middleware/error/errorHandler')
+const { errorHandler, notFound } = require('./middleware/error/errorHandler')
 
 const app = express();
 const PORT = process.env.PORT || 9000;
@@ -16,7 +16,8 @@ app.use(express.json());
 app.use('/api/users', userRoutes);
 
 // error handlers
-app.use(errorHandler);
+app.use(notFound); 
+app.use(errorHandler); 
 
 // server
 app.listen(PORT, console.log(`Server is running on ${PORT}`));
