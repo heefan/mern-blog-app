@@ -1,9 +1,10 @@
-const express = require('express');
-const { userRegisterController } = require('../../controllers/users/usersController');
+const express = require('express')
+const { userRegisterController, userLoginController } = require('../../controllers/users/usersController')
 
-const userRoutes = express.Router();
+const userRoutes = express.Router()
 
-userRoutes.post('/register', userRegisterController);
+userRoutes.post('/register', userRegisterController)
+userRoutes.post('/login', userLoginController)
 
 // userRouter.delete("/api/users", (req, res) => {
 

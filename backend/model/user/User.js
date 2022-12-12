@@ -99,18 +99,21 @@ const userSchema = new mongoose.Schema(
     },
     timestamps: true,
   }
-);
+)
 
 // encrypt password
 // https://openbase.com/js/bcryptjs/documentation
 userSchema.pre('save', async function(next) {
-    console.log(this);
+    console.log(this)
 
-    const salt = await bcrypt.genSalt(10);
+    const salt = await bcrypt.genSalt(10)
     this.password = await bcrypt.hash(this.password, salt)
-    next();
+    next()
 })
 
+userSchema.methods.isPasswordMatched = async function(input) {
+  return await bcrypt.compare(enteredPassword, this.password)
+}
 
 
 // compile schema into  model
