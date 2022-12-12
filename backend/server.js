@@ -1,25 +1,19 @@
-const express = require('express');
+const express = require('express')
 const dbConnect = require('./config/db/dbConnect');
+const userRoutes = require('./router/users/usersRoute');
+const {userRouter} = require('./router/users/usersRoute')
 
 const app = express();
 const PORT = process.env.PORT || 9000;
+
+// remote database
 dbConnect();
 
-const { userRegisterController } = require('./controllers/users/usersController');
-
+// middleware
 app.use(express.json());
-app.post("/api/users/register", userRegisterController);
 
+// routes
+app.use('/api/users', userRoutes);
 
-
-app.post("/api/users/login", (req, res) => {
-    res.json({ user: "User Login" });
-});
-
-app.get("/api/users", (req, res) => {
-    res.json({ user: "fetch all users" });
-});
-
-
-
+// server
 app.listen(PORT, console.log(`Server is running on ${PORT}`));

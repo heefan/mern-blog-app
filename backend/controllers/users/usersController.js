@@ -1,6 +1,9 @@
 const User = require('../../model/user/User');
 
 const userRegisterController = async (req, res) => {
+    const isUserExist = await User.findOne({email: req?.body?.email})
+    // if (isUserExist)  
+    
     try {
         const user = await User.create({
             firstName: req?.body?.lastName,
