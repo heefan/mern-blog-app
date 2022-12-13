@@ -97,6 +97,21 @@ const userProfileController = expressAsyncHandler(async (req, res) => {
   }
 })
 
+const updateUserController = expressAsyncHandler(async (req, res) => { 
+  const { id } = req.params
+  validateMongodbID(id) 
+
+  const user = await User.findByIdAndUpdate(_id, {
+    firstName: req?.body?.firstName,
+    lastName: req?.body?.lastName,
+    email: req?.body?.email,
+    bio: req?.body?.bio
+  }, {
+    new: true,
+    runValidators: true
+  });
+  res.json(user)
+})
 
 module.exports = { userRegisterController, 
   userLoginController,
@@ -104,4 +119,5 @@ module.exports = { userRegisterController,
   deleteUserController,
   fetchUserDetailsController,
   userProfileController,
+  updateUserController,
  }

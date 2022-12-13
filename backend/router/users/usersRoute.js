@@ -17,5 +17,6 @@ userRoutes.delete('/:id', deleteUserController)
 userRoutes.get('/', authMiddleware, fetchUsersController)
 userRoutes.get('/:id', fetchUserDetailsController)
 userRoutes.get('/profile/:id', authMiddleware, userProfileController)
+userRoutes.put('/:id', authMiddleware, updateUserController)
 
 module.exports = userRoutes
