@@ -28,6 +28,7 @@ const userLoginController = expressAsyncHandler(async (req, res) => {
 
   if (await (theUser?.isPasswordMatched(password))) {
     res.json ({ 
+      _id: theUser?._id,
       firstName: theUser?.firstName,
       lastName: theUser?.lastName,
       email: theUser?.email,
@@ -41,4 +42,14 @@ const userLoginController = expressAsyncHandler(async (req, res) => {
   }
 })
 
-module.exports = { userRegisterController, userLoginController }
+// user
+const fetchUsersController = expressAsyncHandler(async (req,res) => {
+  try {
+    const users = await User.find({})
+    res.json(users)
+  } catch (error) {
+    res.json(error)
+  }
+})
+
+module.exports = { userRegisterController, userLoginController, fetchUsersController }
