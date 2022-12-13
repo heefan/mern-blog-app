@@ -13,9 +13,9 @@ const userRoutes = express.Router()
 
 userRoutes.post('/register', userRegisterController)
 userRoutes.post('/login', userLoginController)
-userRoutes.get('/', authMiddleware, fetchUsersController)
 userRoutes.delete('/:id', deleteUserController)
+userRoutes.get('/', authMiddleware, fetchUsersController)
 userRoutes.get('/:id', fetchUserDetailsController)
-userRoutes.get('/profile/:id', userProfileController)
+userRoutes.get('/profile/:id', authMiddleware, userProfileController)
 
 module.exports = userRoutes

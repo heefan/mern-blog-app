@@ -90,10 +90,10 @@ const userProfileController = expressAsyncHandler(async (req, res) => {
 
   try {
     const profile = await User.findById(id);
-    json(profile)
+    res.json(profile)
 
   } catch (err) {
-    json(err)
+    res.json(`error: ${err.message}`)
   }
 })
 
