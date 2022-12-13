@@ -3,6 +3,7 @@ const expressAsyncHandler = require("express-async-handler");
 const generateToken = require("../../config/token/generateToken")
 const validateMongodbID = require("../utils/validateMongodbID");
 const { isValidObjectId } = require("mongoose");
+const { json } = require("express");
 
 const userRegisterController = expressAsyncHandler(async (req, res) => {
   const isUserExist = await User.findOne({ email: req?.body?.email });
@@ -83,9 +84,24 @@ const fetchUserDetailsController = expressAsyncHandler(async (req, res) => {
   }
 })
 
+const userProfileController = expressAsyncHandler(async (req, res) => { 
+  const { id } = req.params
+  validateMongodbID(id)
+
+  try {
+    const profile = await User.findById(id);
+    json(profile)
+
+  } catch (err) {
+    json(err)
+  }
+})
+
+
 module.exports = { userRegisterController, 
   userLoginController,
   fetchUsersController,
   deleteUserController,
   fetchUserDetailsController,
+  userProfileController,
  }
