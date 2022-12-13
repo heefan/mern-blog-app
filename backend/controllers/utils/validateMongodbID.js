@@ -7,4 +7,4 @@ const validateMongodbID = id => { return
     }
 }
 
-module.exports = validateMongodbID;
+module.exports = validateMongodbID
