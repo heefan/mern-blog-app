@@ -1,6 +1,8 @@
 const User = require("../../model/user/User");
 const expressAsyncHandler = require("express-async-handler");
 const generateToken = require("../../config/token/generateToken")
+const validateMongodbID = require("../utils/validateMongodbID");
+const { isValidObjectId } = require("mongoose");
 
 const userRegisterController = expressAsyncHandler(async (req, res) => {
   const isUserExist = await User.findOne({ email: req?.body?.email });
@@ -42,7 +44,7 @@ const userLoginController = expressAsyncHandler(async (req, res) => {
   }
 })
 
-// user
+// api/users/
 const fetchUsersController = expressAsyncHandler(async (req,res) => {
   try {
     const users = await User.find({})
@@ -52,4 +54,24 @@ const fetchUsersController = expressAsyncHandler(async (req,res) => {
   }
 })
 
-module.exports = { userRegisterController, userLoginController, fetchUsersController }
+
+// api/users/delete/{id}
+const deleteUserController = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params
+
+  validateMongodbID(id)
+
+  try {
+    const deleteUser = await User.findByIdAndDelete(id)
+    res.json(deleteUser)
+  } catch (error) { 
+    res.json(error)
+  }
+})
+
+
+module.exports = { userRegisterController, 
+  userLoginController,
+  fetchUsersController,
+  deleteUserController,
+ }
