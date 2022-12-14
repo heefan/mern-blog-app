@@ -179,6 +179,19 @@ const unfollowUserController = expressAsyncHandler(async (req, res) => {
   res.json("You have successfully unfollowed this user");
 });
 
+const blockUserController = expressAsyncHandler(async (req, res) => { 
+  const { id } = req.params
+  validateMongodbID(id)
+  
+  const user = await User.findByIdAndUpdate(
+    id,
+    { isBlocked: true },
+    { new: true }
+  )
+  res.json(user)
+});
+
+
 
 module.exports = { userRegisterController, 
   userLoginController,
@@ -189,5 +202,6 @@ module.exports = { userRegisterController,
   updateUserController,
   updateUserPasswordController,
   followingUserController,
-  unfollowUserController
+  unfollowUserController,
+  blockUserController,
  }
