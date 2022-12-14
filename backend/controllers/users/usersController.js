@@ -191,7 +191,17 @@ const blockUserController = expressAsyncHandler(async (req, res) => {
   res.json(user)
 });
 
-
+const unblockUserController = expressAsyncHandler(async (req, res) => { 
+  const { id } = req.params
+  validateMongodbID(id)
+  
+  const user = await User.findByIdAndUpdate(
+    id,
+    { isBlocked: false },
+    { new: true }
+  )
+  res.json(user)
+});
 
 module.exports = { userRegisterController, 
   userLoginController,
@@ -204,4 +214,5 @@ module.exports = { userRegisterController,
   followingUserController,
   unfollowUserController,
   blockUserController,
+  unblockUserController,
  }

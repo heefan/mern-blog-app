@@ -27,5 +27,6 @@ userRoutes.put('/password/:id', authMiddleware, updateUserPasswordController)
 userRoutes.put('/follow/:id', authMiddleware, followingUserController)
 userRoutes.put('/unfollow/:id', authMiddleware, unfollowUserController)
 userRoutes.put('/block/:id', authMiddleware, blockUserController)
+userRoutes.put('/unblock/:id', authMiddleware, unblockUserController)
 
 module.exports = userRoutes
