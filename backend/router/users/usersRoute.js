@@ -10,6 +10,7 @@ const { userRegisterController,
      updateUserController,
      updateUserPasswordController,
      followingUserController,
+     unfollowUserController,
     } = require('../../controllers/users/usersController')
 
 const userRoutes = express.Router()
@@ -23,5 +24,6 @@ userRoutes.get('/profile/:id', authMiddleware, userProfileController)
 userRoutes.put('/:id', authMiddleware, updateUserController)
 userRoutes.put('/password/:id', authMiddleware, updateUserPasswordController)
 userRoutes.put('/follow/:id', authMiddleware, followingUserController)
+userRoutes.put('/unfollow/:id', authMiddleware, unfollowUserController)
 
 module.exports = userRoutes

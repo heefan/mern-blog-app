@@ -141,10 +141,44 @@ const followingUserController = expressAsyncHandler(async (req, res) => {
 
   await User.findByIdAndUpdate(followId, {
     $push: { followers: loginUserId },
-  })
+    isFollowing: true
+  }, 
+  { new: true })
 
+  await User.findByIdAndUpdate(
+    loginUserId,
+    {
+      $push: { following: followId },
+    },
+    {new: true })
   res.json("following user update success")
 })
+
+
+const unfollowUserController = expressAsyncHandler(async (req, res) => {
+  const { unFollowId } = req.body;
+  const loginUserId = req.user.id;
+
+  await User.findByIdAndUpdate(
+    unFollowId,
+    {
+      $pull: { followers: loginUserId },
+      isFollowing: false,
+    },
+    { new: true }
+  );
+
+  await User.findByIdAndUpdate(
+    loginUserId,
+    {
+      $pull: { following: unFollowId },
+    },
+    { new: true }
+  );
+
+  res.json("You have successfully unfollowed this user");
+});
+
 
 module.exports = { userRegisterController, 
   userLoginController,
@@ -154,5 +188,6 @@ module.exports = { userRegisterController,
   userProfileController,
   updateUserController,
   updateUserPasswordController,
-  followingUserController
+  followingUserController,
+  unfollowUserController
  }
