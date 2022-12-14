@@ -113,7 +113,7 @@ const updateUserController = expressAsyncHandler(async (req, res) => {
   res.json(user)
 })
 
-const updateUserPassword = expressAsyncHandler(async (req, res) => {
+const updateUserPasswordController = expressAsyncHandler(async (req, res) => {
    const { _id } = req.user
    const { password } = req.body
    validateMongodbID(_id)
@@ -129,6 +129,23 @@ const updateUserPassword = expressAsyncHandler(async (req, res) => {
    }
 })
 
+
+const followingUserController = expressAsyncHandler(async (req, res) => {
+  const { followId } = req.body
+  const loginUserId = req.user.id
+
+  const targetUser = await User.findById(followId)
+  const alreadyFollowing = targetUser.followers?.find (
+    user => user?.toString() === loginUserId.toString()
+  )
+
+  await User.findByIdAndUpdate(followId, {
+    $push: { followers: loginUserId },
+  })
+
+  res.json("following user update success")
+})
+
 module.exports = { userRegisterController, 
   userLoginController,
   fetchUsersController,
@@ -137,4 +154,5 @@ module.exports = { userRegisterController,
   userProfileController,
   updateUserController,
   updateUserPasswordController,
+  followingUserController
  }
