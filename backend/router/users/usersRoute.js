@@ -12,6 +12,7 @@ const { userRegisterController,
      followingUserController,
      unfollowUserController,
      blockUserController,
+     generateVerificationTokenController
     } = require('../../controllers/users/usersController')
 
 const userRoutes = express.Router()
@@ -28,5 +29,7 @@ userRoutes.put('/follow/:id', authMiddleware, followingUserController)
 userRoutes.put('/unfollow/:id', authMiddleware, unfollowUserController)
 userRoutes.put('/block/:id', authMiddleware, blockUserController)
 userRoutes.put('/unblock/:id', authMiddleware, unblockUserController)
+userRoutes.post('/send-mail', generateVerificationTokenController)
+
 
 module.exports = userRoutes

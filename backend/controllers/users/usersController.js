@@ -4,6 +4,11 @@ const generateToken = require("../../config/token/generateToken")
 const validateMongodbID = require("../utils/validateMongodbID");
 const { isValidObjectId } = require("mongoose");
 const { json } = require("express");
+const sgMail = require("@sendgrid/mail")
+
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
 
 const userRegisterController = expressAsyncHandler(async (req, res) => {
   const isUserExist = await User.findOne({ email: req?.body?.email });
@@ -202,6 +207,24 @@ const unblockUserController = expressAsyncHandler(async (req, res) => {
   )
   res.json(user)
 });
+
+const generateVerificationTokenController = expressAsyncHandler(async(req, res) => {
+ try {
+    const msg = {
+      to: "heefan.dev@outlook.com",
+      from: "heefan.dev@outlook.com",
+      subject: "My first node js email sending",
+      text: "hey, check out my email",
+    }
+
+    await sgMail.send(msg)
+    res.json("success send email")
+
+ } catch (err) {
+    res.json(`error: ${err.message}`)
+ }
+}
+
 
 module.exports = { userRegisterController, 
   userLoginController,
